@@ -18,32 +18,34 @@ CREATE SCHEMA IF NOT EXISTS `cars_company` DEFAULT CHARACTER SET utf8mb4 COLLATE
 USE `cars_company` ;
 
 -- -----------------------------------------------------
--- Table `cars_company`.`Cars`
+-- Table `cars_company`.`cars`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cars_company`.`Cars` (
-  `VIN` INT NOT NULL,
-  `manufacturer` VARCHAR(45) NOT NULL,
-  `model` VARCHAR(45) NOT NULL,
-  `year` VARCHAR(45) NOT NULL,
-  `color` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`VIN`))
+CREATE TABLE IF NOT EXISTS `cars_company`.`cars` (
+  `idcars` INT NOT NULL,
+  `VIN` VARCHAR(45) NOT NULL,
+  `Manufacturer` VARCHAR(45) NOT NULL,
+  `Model` VARCHAR(45) NOT NULL,
+  `Year` VARCHAR(45) NOT NULL,
+  `Color` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idcars`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `cars_company`.`Customers`
+-- Table `cars_company`.`customers`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `cars_company`.`Customers` (
-  `idCustomers` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `phone` VARCHAR(45) NOT NULL,
-  `email` VARCHAR(45) NOT NULL,
-  `address` VARCHAR(45) NOT NULL,
-  `city` VARCHAR(45) NOT NULL,
-  `state/province` VARCHAR(45) NOT NULL,
-  `country` VARCHAR(45) NOT NULL,
-  `zip/postal code` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idCustomers`))
+CREATE TABLE IF NOT EXISTS `cars_company`.`customers` (
+  `idcustomers` INT NOT NULL,
+  `Customer ID` VARCHAR(45) NOT NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  `Phone` VARCHAR(45) NOT NULL,
+  `Email` VARCHAR(45) NOT NULL,
+  `Address` VARCHAR(45) NOT NULL,
+  `CIty` VARCHAR(45) NOT NULL,
+  `State/Province` VARCHAR(45) NOT NULL,
+  `Country` VARCHAR(45) NOT NULL,
+  `Postal` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idcustomers`))
 ENGINE = InnoDB;
 
 
@@ -51,10 +53,11 @@ ENGINE = InnoDB;
 -- Table `cars_company`.`Salespersons`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cars_company`.`Salespersons` (
-  `staff id` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `store` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`staff id`))
+  `idSalespersons` INT NOT NULL,
+  `Staff ID` VARCHAR(45) NOT NULL,
+  `Name` VARCHAR(45) NOT NULL,
+  `Store` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idSalespersons`))
 ENGINE = InnoDB;
 
 
@@ -63,28 +66,28 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cars_company`.`Invoices` (
   `idInvoices` INT NOT NULL,
-  `invoice number` VARCHAR(45) NOT NULL,
-  `date` VARCHAR(45) NOT NULL,
-  `Cars_VIN` INT NOT NULL,
-  `Customers_idCustomers` INT NOT NULL,
-  `Salespersons_staff id` INT NOT NULL,
-  PRIMARY KEY (`idInvoices`, `Cars_VIN`, `Customers_idCustomers`, `Salespersons_staff id`),
-  INDEX `fk_Invoices_Cars_idx` (`Cars_VIN` ASC) VISIBLE,
-  INDEX `fk_Invoices_Customers1_idx` (`Customers_idCustomers` ASC) VISIBLE,
-  INDEX `fk_Invoices_Salespersons1_idx` (`Salespersons_staff id` ASC) VISIBLE,
-  CONSTRAINT `fk_Invoices_Cars`
-    FOREIGN KEY (`Cars_VIN`)
-    REFERENCES `cars_company`.`Cars` (`VIN`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Invoices_Customers1`
-    FOREIGN KEY (`Customers_idCustomers`)
-    REFERENCES `cars_company`.`Customers` (`idCustomers`)
+  `Invoice Number` VARCHAR(45) NOT NULL,
+  `Date` VARCHAR(45) NOT NULL,
+  `customers_idcustomers` INT NOT NULL,
+  `Salespersons_idSalespersons` INT NOT NULL,
+  `cars_idcars` INT NOT NULL,
+  PRIMARY KEY (`idInvoices`, `customers_idcustomers`, `Salespersons_idSalespersons`, `cars_idcars`),
+  INDEX `fk_Invoices_customers_idx` (`customers_idcustomers` ASC) VISIBLE,
+  INDEX `fk_Invoices_Salespersons1_idx` (`Salespersons_idSalespersons` ASC) VISIBLE,
+  INDEX `fk_Invoices_cars1_idx` (`cars_idcars` ASC) VISIBLE,
+  CONSTRAINT `fk_Invoices_customers`
+    FOREIGN KEY (`customers_idcustomers`)
+    REFERENCES `cars_company`.`customers` (`idcustomers`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Invoices_Salespersons1`
-    FOREIGN KEY (`Salespersons_staff id`)
-    REFERENCES `cars_company`.`Salespersons` (`staff id`)
+    FOREIGN KEY (`Salespersons_idSalespersons`)
+    REFERENCES `cars_company`.`Salespersons` (`idSalespersons`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Invoices_cars1`
+    FOREIGN KEY (`cars_idcars`)
+    REFERENCES `cars_company`.`cars` (`idcars`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
