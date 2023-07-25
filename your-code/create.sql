@@ -15,6 +15,9 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- Schema Manolo
 -- -----------------------------------------------------
 CREATE SCHEMA IF NOT EXISTS `Manolo` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+-- -----------------------------------------------------
+-- Schema manolo
+-- -----------------------------------------------------
 USE `Manolo` ;
 
 -- -----------------------------------------------------
@@ -58,7 +61,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Manolo`.`Salesperson` (
   `salep_id` INT NOT NULL,
-  `staff_id` INT NULL DEFAULT NULL,
+  `staff_id` VARCHAR(45) NULL DEFAULT NULL,
   `name` VARCHAR(45) NULL DEFAULT NULL,
   `store` VARCHAR(45) NULL,
   PRIMARY KEY (`salep_id`))
@@ -72,24 +75,30 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Manolo`.`Invoice` (
   `invoice_id` INT NOT NULL,
-  `Invoice_num` INT NULL DEFAULT NULL,
+  `Invoice_num` VARCHAR(45) NULL DEFAULT NULL,
   `date` DATETIME NULL DEFAULT NULL,
   `Cars_car_id` INT NOT NULL,
-  `Customers_cust_id` INT NOT NULL,
   `Salesperson_salep_id` INT NOT NULL,
-  PRIMARY KEY (`invoice_id`, `Cars_car_id`, `Customers_cust_id`, `Salesperson_salep_id`),
-  INDEX `fk_Invoice_Cars_idx` (`Cars_car_id` ASC) VISIBLE,
-  INDEX `fk_Invoice_Customers1_idx` (`Customers_cust_id` ASC) VISIBLE,
+  `Customers_cust_key` INT NOT NULL,
+  PRIMARY KEY (`invoice_id`, `Cars_car_id`, `Salesperson_salep_id`, `Customers_cust_key`),
+  INDEX `fk_Invoice_Cars1_idx` (`Cars_car_id` ASC) VISIBLE,
   INDEX `fk_Invoice_Salesperson1_idx` (`Salesperson_salep_id` ASC) VISIBLE,
-  CONSTRAINT `fk_Invoice_Cars`
+  INDEX `fk_Invoice_Customers1_idx` (`Customers_cust_key` ASC) VISIBLE,
+  CONSTRAINT `fk_Invoice_Cars1`
     FOREIGN KEY (`Cars_car_id`)
-    REFERENCES `Manolo`.`Cars` (`car_id`),
-  CONSTRAINT `fk_Invoice_Customers1`
-    FOREIGN KEY (`Customers_cust_id`)
-    REFERENCES `Manolo`.`Customers` (`cust_key`),
+    REFERENCES `Manolo`.`Cars` (`car_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_Invoice_Salesperson1`
     FOREIGN KEY (`Salesperson_salep_id`)
-    REFERENCES `Manolo`.`Salesperson` (`salep_id`))
+    REFERENCES `Manolo`.`Salesperson` (`salep_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Invoice_Customers1`
+    FOREIGN KEY (`Customers_cust_key`)
+    REFERENCES `Manolo`.`Customers` (`cust_key`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -98,4 +107,5 @@ COLLATE = utf8mb4_0900_ai_ci;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
 
