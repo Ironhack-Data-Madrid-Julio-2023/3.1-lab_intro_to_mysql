@@ -1,0 +1,1 @@
+DELETE FROM VEHICULO WHERE idVehículos = 4;
