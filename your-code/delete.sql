@@ -1,0 +1,1 @@
+delete from cars where cars_id = 4;
