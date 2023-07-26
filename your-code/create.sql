@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `lab_mysql`.`CARS` (
   `cars_id` INT NOT NULL,
   `model` VARCHAR(45) NULL,
   `brand` VARCHAR(45) NULL,
-  `year` YEAR(4) NULL,
+  `year` INT NULL,
   PRIMARY KEY (`cars_id`))
 ENGINE = InnoDB;
 
