@@ -1,0 +1,1 @@
+-- i have lost the archive with the queries' code as text; however i have showed Yona the seeded tables for this lab challenge in class.
