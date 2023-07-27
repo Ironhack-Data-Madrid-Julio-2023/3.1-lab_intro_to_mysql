@@ -1,0 +1,1 @@
+DROP TABLE `negocio`.`vendedores`;
